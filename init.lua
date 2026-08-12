@@ -196,6 +196,16 @@ do
     end)
   end, { desc = 'LSP [P]eek Definition' })
 
+  vim.keymap.set('n', '<leader>cm', function()
+    -- 1. Execute the substitution command silently
+    vim.cmd [[%s/\r//ge]]
+
+    -- 2. Send the Neovim notification
+    vim.notify('Windows ^M characters cleared!', vim.log.levels.INFO, {
+      title = 'Buffer Cleaned',
+    })
+  end, { desc = '[C]lear [W]indows ^M characters and notify' })
+
   -- [[ Basic Autocommands ]]
   --  See `:help lua-guide-autocommands`
 
@@ -353,10 +363,15 @@ do
     flavour = 'latte',
   }
 
-  -- Load the colorscheme here.
-  -- Like many other themes, this one has different styles, and you could load
-  -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-  vim.cmd.colorscheme 'catppuccin'
+  -- Follow the OS appearance: tokyonight when dark, catppuccin (latte) when
+  -- light. Queries the system directly (via WSL interop on this machine)
+  -- instead of the terminal's OSC 11 response, since that round-trip
+  -- doesn't survive the WezTerm -> WSL -> tmux chain here.
+  vim.pack.add { gh 'f-person/auto-dark-mode.nvim' }
+  require('auto-dark-mode').setup {
+    set_dark_mode = function() vim.cmd.colorscheme 'tokyonight' end,
+    set_light_mode = function() vim.cmd.colorscheme 'catppuccin' end,
+  }
 
   -- Highlight todo, notes, etc in comments
   vim.pack.add { gh 'folke/todo-comments.nvim' }

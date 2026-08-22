@@ -1,4 +1,4 @@
-if true then
+if false then
   return {}
 else
   vim.pack.add {
@@ -27,8 +27,8 @@ else
   -- first press was destroying the persistent dashed overlay instead of
   -- expanding it. `expand_menu` only ever expands, never closes, so the
   -- overlay is never disabled.
-  api.register_last_buffer_key ';' -- Label for last-accessed buffer
-  vim.keymap.set('n', ';', api.expand_menu, { silent = true, desc = 'Bento: expand menu' })
+  api.register_last_buffer_key '\\' -- Label for last-accessed buffer
+  vim.keymap.set('n', '\\', api.expand_menu, { silent = true, desc = 'Bento: expand menu' })
   api.register_collapse_key '<Esc>' -- Collapse/close menu
   api.register_prev_page_key '[' -- Previous page (pagination)
   api.register_next_page_key ']' -- Next page (pagination)

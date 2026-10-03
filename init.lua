@@ -747,7 +747,8 @@ do
   -- You can press `g?` for help in this menu.
   local ensure_installed = vim.tbl_keys(servers or {})
   vim.list_extend(ensure_installed, {
-    'prettierd', -- used by conform.nvim for js/ts/jsx/tsx formatting
+    'prettierd', -- used by conform.nvim for js/ts/jsx/tsx/json/html formatting
+    'prettier', -- fallback for prettierd, avoids resolving the Windows install under WSL
     'markdownlint', -- used by kickstart.plugins.lint for markdown
   })
 
@@ -796,6 +797,7 @@ do
       javascriptreact = { 'prettierd', 'prettier', stop_after_first = true },
       json = { 'prettierd', 'prettier', stop_after_first = true },
       jsonc = { 'prettierd', 'prettier', stop_after_first = true },
+      html = { 'prettierd', 'prettier', stop_after_first = true },
       lua = { 'stylua' },
     },
   }

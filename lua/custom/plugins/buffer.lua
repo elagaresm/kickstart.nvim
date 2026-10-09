@@ -5,6 +5,17 @@ else
     { src = 'https://github.com/serhez/bento.nvim', version = 'feat/v2' },
   }
 
+  -- Bento's startup `toggle_menu()` (deferred 100ms after setup) emits an INFO
+  -- "No buffers to display" notice when no marks exist yet. Drop only that
+  -- message; every other notification passes through untouched.
+  local orig_notify = vim.notify
+  vim.notify = function(msg, level, opts)
+    if opts and opts.title == 'Buffer Manager' and msg == 'No buffers to display' then
+      return
+    end
+    return orig_notify(msg, level, opts)
+  end
+
   require('bento').setup {
     ui = {
       floating = {

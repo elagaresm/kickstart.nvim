@@ -565,6 +565,9 @@ do
 
   -- Shortcut for searching your Neovim configuration files
   vim.keymap.set('n', '<leader>sn', function() builtin.find_files { cwd = vim.fn.stdpath 'config', follow = true } end, { desc = '[S]earch [N]eovim files' })
+
+  -- Pick and live-preview a colorscheme
+  vim.keymap.set('n', '<leader>sC', function() builtin.colorscheme { enable_preview = true } end, { desc = '[S]earch [C]olorscheme (live preview)' })
 end
 
 -- ============================================================
@@ -685,7 +688,19 @@ do
     --
     -- But for many setups, the LSP (`ts_ls`) will work just fine
     ts_ls = {},
-    tailwindcss = {}, -- Tailwind CSS class intellisense
+    tailwindcss = {
+      -- add a class regex
+      settings = {
+        tailwindCSS = {
+          classAttributes = { 'class', 'className', 'classList' },
+          experimental = {
+            classRegex = {
+              { "tw`([^`]*)" },
+            },
+          },
+        },
+      },
+    }, -- Tailwind CSS class intellisense
     cssls = {}, -- generic CSS language server
     eslint = {}, -- ESLint flat-config diagnostics + code actions
     prismals = {}, -- Prisma schema language server
